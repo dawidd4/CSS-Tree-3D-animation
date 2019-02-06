@@ -1,0 +1,128 @@
+:root {
+    --animation: anim_3; /* 1-3 */
+
+    --c_width: 100vw;
+    --c_height: 100vh;
+    --ground_width: 30vw;
+    --ground_height: 30vw;
+
+    --tree_shadow_width: 14vw;
+    --tree_shadow_blur: blur(3vw);
+    --tree_shadow_opacity: 0.5;
+
+    --tree_width: 20vw;
+    --tree_height: 36vw;
+}
+
+/* matrix3d playground: */
+
+#sample-tree {
+    /*matrix3d below won't work if
+    overriden by animations
+    having matrices3d
+    (just comment out "animation:..")
+    */
+    transform: matrix3d(
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1);
+    animation: var(--animation) 4s ease-in-out infinite alternate;
+    /* transform-origin: 0vw 0vw 0vw; */
+}
+
+body {
+    background-color: #2c2c2c;
+    overflow: hidden;
+    margin: 0;
+}
+
+.orbitbinder {
+    transform-origin: calc(var(--c_width)/2) calc(var(--c_height)/2);
+    transform-style: preserve-3d;
+}
+
+.sample-container {
+    width: var(--c_width);
+    height: var(--c_height);
+    perspective: 100vw;
+}
+
+#sample-ground {
+    position: absolute;
+    width: var(--ground_width);
+    height: var(--ground_height);
+    box-shadow: inset 0 0 0 4px grey;
+    /*put ground to the center and 20vw down: */
+    transform: translate3d(calc(50vw - var(--ground_width)/2),
+        calc(50vh - var(--ground_height)/2),
+        -20vw);
+    transform-style: preserve-3d;
+}
+
+#sample-ground::before {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    filter: var(--tree_shadow_blur);
+    opacity: var(--tree_shadow_opacity);
+    width: var(--tree_shadow_width);
+    height: var(--tree_shadow_width);
+    transform: translate(
+        calc((var(--ground_width) - var(--tree_shadow_width))/2),
+        calc((var(--ground_height) - var(--tree_shadow_width))/2));
+    background-color: black;
+}
+
+/*place the tree to the center*/
+#sample-tree {
+    position: absolute;
+    left: calc(var(--ground_width)/2);
+    top: calc(var(--ground_height)/2);
+    /*transform: translate(
+      calc(var(--ground_width)/2),
+      calc(var(--ground_height)/2)
+    );RESERVERD FOR MATRIX3D TRANSFORMATIONS ¯\_(ツ)_/¯*/
+    transform-style: preserve-3d;
+}
+
+#sample-tree::before,
+#sample-tree::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: var(--tree_width);
+    height: var(--tree_height);
+    transform-origin: bottom;
+    box-shadow: inset 0 0 0 4px grey;
+}
+
+#sample-tree::before {
+    transform: translate(
+        calc(0vw - var(--tree_width)/2),
+        calc(0vw - var(--tree_height))) rotateX(270deg);
+}
+
+#sample-tree::after {
+    transform: translate(
+        calc(0vw - var(--tree_width)/2),
+        calc(0vw - var(--tree_height))) rotateX(270deg) rotateY(90deg);
+}
+
+/* another matrix3d playground (for the animations): */
+
+@keyframes anim_1 {
+    from { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1.25, .001, 0, 0, 0, 1); }
+    to { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, .5, -.001, 0, 0, 0, 1);}
+}
+
+@keyframes anim_2 {
+    from { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, .0625, 0, 1, 0, 0, 0, 0, 1); }
+    to { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, -.0625, 0, 1, 0, 0, 0, 0, 1); }
+}
+
+@keyframes anim_3 {
+    from { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+    to { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+}
