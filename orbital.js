@@ -1,6 +1,6 @@
 var wrap = document.getElementsByClassName("orbitbinder")[0];
 var begX, begY, prevX, prevY, newX, newY, dv;
-newX=13; newY=67;
+newX=33; newY=67;
 document.onmousedown = beginD;
 document.onmouseup = stopD;
 
