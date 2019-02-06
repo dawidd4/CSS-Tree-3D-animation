@@ -55,6 +55,7 @@ body {
     width: var(--ground_width);
     height: var(--ground_height);
     background-image: url('grass.jpg');
+    background-size: 30vw 30vw;
     /*put ground to the center and 10vw down: */
     transform: translate3d(calc(50vw - var(--ground_width)/2),
         calc(50vh - var(--ground_height)/2),
